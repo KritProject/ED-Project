@@ -503,7 +503,7 @@
 
     <script>
         // ใส่ Web App URL ของคุณที่ได้จากการบันทึกเผยแพร่ Google Apps Script
-        const WEB_APP_URL = "https://script.google.com/macros/s/AKfycby1uEV73Qdz0658CgrD1W0QvY44Z4Lg51V7BAkUNGXjRQztgzjc_65aQprh_Bv0XS2D/exec";
+        const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwck0ibHfV8wG7ifcmBVFBI744-OYT-YeyWPwxpPxXYBBVgs6xXNjN8pEKvxg3rhHUP/exec";
 
         let sampleWorks = [
             {
@@ -1011,7 +1011,8 @@
                             size: photoObj.size,
                             type: photoObj.type,
                             isPhoto: true,
-                            dataUrl: result.url,
+                            dataUrl: result.dataUrl || photoObj.dataUrl, // ใช้ Data URL เพื่อให้แสดงรูปภาพได้ 100%
+                            driveUrl: result.url,
                             fileId: result.id
                         });
                     }
