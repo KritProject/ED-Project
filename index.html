@@ -502,7 +502,8 @@
     </div>
 
     <script>
-        const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxb92nieGWBQB5x660FQpPPcolQn7c1Og1Ghwa4WuMB6Mi5HwQB_qyhbacNVM0GsmFb/exec";
+        // ใส่ Web App URL ของคุณที่ได้จากการบันทึกเผยแพร่ Google Apps Script
+        const WEB_APP_URL = "https://script.google.com/macros/s/AKfycby1uEV73Qdz0658CgrD1W0QvY44Z4Lg51V7BAkUNGXjRQztgzjc_65aQprh_Bv0XS2D/exec";
 
         let sampleWorks = [
             {
@@ -834,7 +835,7 @@
                         type: file.type,
                         isPhoto: true,
                         dataUrl: ev.target.result,
-                        fileObject: file // เก็บไฟล์จริงสำหรับอัปโหลดเข้า Drive
+                        fileObject: file
                     });
                     renderSelectedPhotosPreview();
                 };
@@ -942,10 +943,11 @@
                 reader.onload = async function(e) {
                     const base64String = e.target.result.split(',')[1];
                     const payload = {
+                        action: 'uploadFile',
                         fileName: file.name,
                         mimeType: file.type || 'application/octet-stream',
                         base64: base64String,
-                        folderType: folderType // ส่งระบุว่า 'photo' หรือ 'doc'
+                        folderType: folderType // ส่งระบุประเภท 'photo' หรือ 'doc'
                     };
 
                     try {
