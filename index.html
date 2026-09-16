@@ -416,7 +416,6 @@
                                 <p class="text-[11px] text-slate-400 mt-0.5">รองรับไฟล์ JPG, PNG, WEBP</p>
                                 <input type="file" id="input-photos" multiple onchange="handlePhotoSelect(event)" class="hidden" accept="image/*">
                             </div>
-                            <!-- พรีวิวรูปภาพที่เลือก -->
                             <div id="uploaded-photos-preview" class="mt-3 grid grid-cols-2 sm:grid-cols-4 gap-3"></div>
                         </div>
 
@@ -429,10 +428,9 @@
                                     <i class="fa-brands fa-google-drive text-lg"></i>
                                 </div>
                                 <p class="text-xs font-semibold text-slate-700">เลือกไฟล์เพื่ออัปโหลดไปยัง Google Drive</p>
-                                <p class="text-[11px] text-slate-400 mt-0.5">รองรับ PDF, Word, Excel, PPTX, ZIP</p>
+                                <p class="text-[11px] text-slate-400 mt-0.5">รองรับ PDF, Word, Excel, PPTX, ZIP (ป้องกันไฟล์เปล่าและชื่อซ้ำ)</p>
                                 <input type="file" id="input-docs" multiple onchange="handleDocSelect(event)" class="hidden">
                             </div>
-                            <!-- พรีวิวรายการไฟล์เอกสารที่เลือก -->
                             <div id="uploaded-docs-preview" class="mt-3 space-y-2"></div>
                         </div>
                     </div>
@@ -504,7 +502,7 @@
     </div>
 
     <script>
-        const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwJNrFA9d3_7J1ApDO3ue-hAEFYclmIHNEpMqyOFBiQJqCaS5iQ4V7icNQtI1ZEt8Wv/exec";
+        const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxb92nieGWBQB5x660FQpPPcolQn7c1Og1Ghwa4WuMB6Mi5HwQB_qyhbacNVM0GsmFb/exec";
 
         let sampleWorks = [
             {
@@ -560,8 +558,6 @@
             refreshDashboard();
             renderPRCarousel();
             renderGallery();
-            
-            // ตั้งค่าให้รูปภาพ / เอกสารสามารถลากมาวาง (Drag and Drop) ได้
             setupDragAndDrop();
         });
 
@@ -609,7 +605,6 @@
             document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
             document.getElementById(`tab-${tabName}`).classList.remove('hidden');
             
-            // อัปเดตไฮไลต์ปุ่มเมนู
             document.querySelectorAll('.nav-btn').forEach(btn => {
                 btn.className = "nav-btn px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 text-slate-300 hover:text-white hover:bg-slate-800";
             });
@@ -827,7 +822,7 @@
             renderGallery();
         }
 
-        // --- FILE SELECTION PREVIEWS ---
+        // --- FILE SELECTION PREVIEWS & VALIDATION ---
         function handlePhotoSelect(e) {
             const files = Array.from(e.target.files);
             files.forEach(file => {
@@ -838,12 +833,14 @@
                         size: file.size,
                         type: file.type,
                         isPhoto: true,
-                        dataUrl: ev.target.result
+                        dataUrl: ev.target.result,
+                        fileObject: file // เก็บไฟล์จริงสำหรับอัปโหลดเข้า Drive
                     });
                     renderSelectedPhotosPreview();
                 };
                 reader.readAsDataURL(file);
             });
+            e.target.value = '';
         }
 
         function renderSelectedPhotosPreview() {
@@ -868,10 +865,26 @@
 
         function handleDocSelect(e) {
             const files = Array.from(e.target.files);
-            files.forEach(file => {
+            
+            for (let file of files) {
+                // 1. ตรวจสอบไฟล์เปล่า (0 Bytes)
+                if (file.size === 0) {
+                    showToast(`ไม่สามารถแนบไฟล์ "${file.name}" ได้เนื่องจากเป็นไฟล์เปล่า (0 Bytes)`, 'danger');
+                    continue;
+                }
+
+                // 2. ตรวจสอบไฟล์เอกสารชื่อซ้ำ
+                const isDuplicate = state.selectedDocs.some(doc => doc.name === file.name);
+                if (isDuplicate) {
+                    showToast(`ไฟล์ "${file.name}" มีอยู่ในรายการแล้ว (ชื่อไฟล์ซ้ำ)`, 'danger');
+                    continue;
+                }
+
                 state.selectedDocs.push(file);
-            });
+            }
+            
             renderSelectedDocsPreview();
+            e.target.value = '';
         }
 
         function renderSelectedDocsPreview() {
@@ -922,8 +935,8 @@
             });
         }
 
-        // --- UPLOAD TO GOOGLE DRIVE ---
-        async function uploadFileToDrive(file) {
+        // --- UPLOAD & DELETE VIA GOOGLE DRIVE ---
+        async function uploadFileToDrive(file, folderType = 'doc') {
             return new Promise((resolve, reject) => {
                 const reader = new FileReader();
                 reader.onload = async function(e) {
@@ -931,7 +944,8 @@
                     const payload = {
                         fileName: file.name,
                         mimeType: file.type || 'application/octet-stream',
-                        base64: base64String
+                        base64: base64String,
+                        folderType: folderType // ส่งระบุว่า 'photo' หรือ 'doc'
                     };
 
                     try {
@@ -941,7 +955,7 @@
                         });
                         const data = await response.json();
                         if (data.status === 'success') {
-                            resolve(data.fileUrl);
+                            resolve({ url: data.fileUrl, id: data.fileId });
                         } else {
                             reject(data.message || 'เกิดข้อผิดพลาดในการอัปโหลด');
                         }
@@ -954,24 +968,63 @@
             });
         }
 
+        async function deleteFileFromDrive(fileId) {
+            try {
+                await fetch(WEB_APP_URL, {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        action: 'deleteFile',
+                        fileId: fileId
+                    })
+                });
+            } catch (err) {
+                console.error('ไม่สามารถลบไฟล์บน Drive ได้:', err);
+            }
+        }
+
         async function handleFormSubmit(event) {
             event.preventDefault();
+
+            // Re-check ป้องกันไฟล์เอกสารชื่อซ้ำในคิวอีกครั้ง
+            const docNames = state.selectedDocs.map(d => d.name);
+            const hasDuplicates = docNames.some((name, index) => docNames.indexOf(name) !== index);
+            if (hasDuplicates) {
+                showToast('พบไฟล์เอกสารชื่อซ้ำกัน กรุณาลบไฟล์ที่ซ้ำออกก่อนบันทึก', 'danger');
+                return;
+            }
+
             const submitBtn = document.getElementById('submit-btn');
             submitBtn.disabled = true;
-            submitBtn.innerHTML = `<i class="fa-solid fa-spinner animate-spin mr-2"></i>กำลังอัปโหลดไฟล์ลง Google Drive...`;
+            submitBtn.innerHTML = `<i class="fa-solid fa-spinner animate-spin mr-2"></i>กำลังอัปโหลดรูปและไฟล์ลง Google Drive...`;
 
-            const uploadedDriveFiles = [];
+            const uploadedFiles = [];
 
             try {
-                // อัปโหลดไฟล์เอกสารเข้า Google Drive
+                // 1. อัปโหลดรูปภาพไปยังโฟลเดอร์รูปภาพ (PHOTO_FOLDER_ID)
+                for (let photoObj of state.selectedPhotos) {
+                    if (photoObj.fileObject) {
+                        const result = await uploadFileToDrive(photoObj.fileObject, 'photo');
+                        uploadedFiles.push({
+                            name: photoObj.name,
+                            size: photoObj.size,
+                            type: photoObj.type,
+                            isPhoto: true,
+                            dataUrl: result.url,
+                            fileId: result.id
+                        });
+                    }
+                }
+
+                // 2. อัปโหลดเอกสารแนบไปยังโฟลเดอร์เอกสาร (DOC_FOLDER_ID)
                 for (let docFile of state.selectedDocs) {
-                    const fileUrl = await uploadFileToDrive(docFile);
-                    uploadedDriveFiles.push({
+                    const result = await uploadFileToDrive(docFile, 'doc');
+                    uploadedFiles.push({
                         name: docFile.name,
                         size: docFile.size,
                         type: docFile.type,
                         isPhoto: false,
-                        dataUrl: fileUrl
+                        dataUrl: result.url,
+                        fileId: result.id
                     });
                 }
 
@@ -984,23 +1037,20 @@
                     date: document.getElementById('input-date').value,
                     status: document.querySelector('input[name="input-status"]:checked').value,
                     description: document.getElementById('input-description').value.trim(),
-                    files: [...state.selectedPhotos, ...uploadedDriveFiles]
+                    files: uploadedFiles
                 };
 
-                // เพิ่มงานใหม่ลงไปด้านบนสุด
                 state.works.unshift(newWork);
                 saveToLocalStorage();
 
-                // เคลียร์ฟอร์ม
                 document.getElementById('work-form').reset();
                 state.selectedPhotos = [];
                 state.selectedDocs = [];
                 renderSelectedPhotosPreview();
                 renderSelectedDocsPreview();
 
-                // สลับไปหน้าแดชบอร์ด + อัปเดตข้อมูล Real-time + แจ้งเตือนสำเร็จ
                 switchTab('dashboard');
-                showToast('บันทึกผลงานสำเร็จและอัปโหลดเข้า Google Drive เรียบร้อย!', 'success');
+                showToast('บันทึกผลงานสำเร็จ! ไฟล์และรูปภาพถูกแยกจัดเก็บบน Google Drive เรียบร้อย', 'success');
 
             } catch (err) {
                 showToast('เกิดข้อผิดพลาดในการส่งข้อมูล: ' + err, 'danger');
@@ -1060,7 +1110,6 @@
                 docsList.innerHTML = `<p class="text-xs text-slate-400">ไม่มีไฟล์เอกสารแนบ</p>`;
             }
 
-            // ปุ่มลบ
             const deleteBtn = document.getElementById('modal-delete-btn');
             deleteBtn.onclick = () => deleteWork(work.id);
 
@@ -1071,14 +1120,25 @@
             document.getElementById('detail-modal').classList.add('hidden');
         }
 
-        function deleteWork(id) {
-            if (confirm('คุณแน่ใจหรือไม่ว่าต้องการลบผลงานนี้ออกจากระบบ?')) {
+        async function deleteWork(id) {
+            if (confirm('คุณแน่ใจหรือไม่ว่าต้องการลบผลงานนี้ออกจากระบบและลบไฟล์ทั้งหมดบน Google Drive?')) {
+                const workToDelete = state.works.find(w => w.id === id);
+                
+                // สั่งลบไฟล์และรูปภาพทุกไฟล์ที่มี fileId ออกจาก Google Drive
+                if (workToDelete && workToDelete.files) {
+                    for (let file of workToDelete.files) {
+                        if (file.fileId) {
+                            await deleteFileFromDrive(file.fileId);
+                        }
+                    }
+                }
+
                 state.works = state.works.filter(w => w.id !== id);
                 saveToLocalStorage();
                 closeDetailModal();
                 refreshDashboard();
                 renderGallery();
-                showToast('ลบผลงานเรียบร้อยแล้ว', 'info');
+                showToast('ลบผลงานและลบไฟล์ใน Google Drive เรียบร้อยแล้ว', 'info');
             }
         }
     </script>
