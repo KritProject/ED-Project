@@ -83,7 +83,7 @@
 
                 <!-- Quick Action Button -->
                 <div class="flex items-center space-x-2">
-                    <button onclick="switchTab('submit')" class="bg-gradient-to-r from-red-600 to-rose-700 hover:from-red-700 hover:to-rose-800 text-white text-sm font-medium px-4 py-2 rounded-xl shadow-lg shadow-red-600/25 transition-all duration-200 flex items-center border border-red-500/40">
+                    <button onclick="switchTab('submit')" class="bg-gradient-to-r from-red-600 to-rose-700 hover:from-red-700 hover:to-rose-800 text-white text-sm font-medium px-4 py-2 rounded-xl shadow-lg shadow-red-600/25 transition-all duration-200 flex items-center border border-red-500/40 active:scale-95">
                         <i class="fa-solid fa-plus mr-2"></i>
                         <span class="hidden sm:inline">บันทึกผลงาน</span>
                     </button>
@@ -127,7 +127,7 @@
                         </p>
                     </div>
                     <div class="flex items-center space-x-3">
-                        <button onclick="switchTab('submit')" class="bg-white text-navy-900 hover:bg-slate-100 font-semibold px-4 py-2.5 rounded-xl shadow-lg transition text-sm flex items-center border border-slate-200">
+                        <button onclick="switchTab('submit')" class="bg-white text-navy-900 hover:bg-slate-100 font-semibold px-4 py-2.5 rounded-xl shadow-lg transition text-sm flex items-center border border-slate-200 active:scale-95">
                             <i class="fa-solid fa-upload text-red-600 mr-2"></i>อัปโหลดผลงาน
                         </button>
                     </div>
@@ -216,7 +216,7 @@
                         <h2 class="text-base font-semibold text-slate-900 flex items-center">
                             <i class="fa-solid fa-clock-rotate-left text-slate-400 mr-2"></i>ผลงานบันทึกล่าสุด
                         </h2>
-                        <button onclick="switchTab('gallery')" class="text-xs font-semibold text-red-600 hover:text-red-700 flex items-center">
+                        <button onclick="switchTab('gallery')" class="text-xs font-semibold text-red-600 hover:text-red-700 flex items-center transition hover:underline">
                             ดูทั้งหมด <i class="fa-solid fa-chevron-right text-[10px] ml-1"></i>
                         </button>
                     </div>
@@ -250,10 +250,10 @@
                         <h2 class="text-sm font-semibold text-slate-200">ผลงานและภาพกิจกรรมประชาสัมพันธ์ 4 กลุ่มงาน</h2>
                     </div>
                     <div class="flex items-center space-x-2">
-                        <button onclick="prevCarousel()" class="w-8 h-8 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 flex items-center justify-center transition text-xs">
+                        <button onclick="prevCarousel()" class="w-8 h-8 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 flex items-center justify-center transition text-xs active:scale-95">
                             <i class="fa-solid fa-chevron-left"></i>
                         </button>
-                        <button onclick="nextCarousel()" class="w-8 h-8 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 flex items-center justify-center transition text-xs">
+                        <button onclick="nextCarousel()" class="w-8 h-8 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 flex items-center justify-center transition text-xs active:scale-95">
                             <i class="fa-solid fa-chevron-right"></i>
                         </button>
                     </div>
@@ -408,7 +408,7 @@
                             <label class="block text-sm font-semibold text-slate-800 mb-1 flex items-center">
                                 <i class="fa-solid fa-camera text-amber-500 mr-2"></i>1. อัปโหลดรูปภาพกิจกรรม/การปฏิบัติงาน (Photos)
                             </label>
-                            <div id="photo-drop-zone" onclick="document.getElementById('input-photos').click()" class="border-2 border-dashed border-amber-300 hover:border-amber-500 bg-amber-50/40 hover:bg-amber-50/70 rounded-2xl p-5 text-center cursor-pointer transition flex flex-col items-center justify-center">
+                            <div id="photo-drop-zone" onclick="document.getElementById('input-photos').click()" class="border-2 border-dashed border-amber-300 hover:border-amber-500 bg-amber-50/40 hover:bg-amber-50/70 rounded-2xl p-5 text-center cursor-pointer transition flex flex-col items-center justify-center active:scale-[0.99]">
                                 <div class="w-10 h-10 rounded-full bg-amber-100 text-amber-600 flex items-center justify-center mb-1.5">
                                     <i class="fa-solid fa-image text-lg"></i>
                                 </div>
@@ -416,14 +416,15 @@
                                 <p class="text-[11px] text-slate-400 mt-0.5">รองรับไฟล์ JPG, PNG, WEBP</p>
                                 <input type="file" id="input-photos" multiple onchange="handlePhotoSelect(event)" class="hidden" accept="image/*">
                             </div>
-                            <div id="uploaded-photos-preview" class="mt-3 grid grid-cols-2 sm:grid-cols-4 gap-2"></div>
+                            <!-- พรีวิวรูปภาพที่เลือก -->
+                            <div id="uploaded-photos-preview" class="mt-3 grid grid-cols-2 sm:grid-cols-4 gap-3"></div>
                         </div>
 
                         <div class="sm:col-span-2 border-t border-slate-100 pt-4">
                             <label class="block text-sm font-semibold text-slate-800 mb-1 flex items-center">
                                 <i class="fa-solid fa-cloud-arrow-up text-blue-600 mr-2"></i>2. อัปโหลดไฟล์เข้า Google Drive
                             </label>
-                            <div id="doc-drop-zone" onclick="document.getElementById('input-docs').click()" class="border-2 border-dashed border-blue-300 hover:border-blue-500 bg-blue-50/40 hover:bg-blue-50/70 rounded-2xl p-5 text-center cursor-pointer transition flex flex-col items-center justify-center">
+                            <div id="doc-drop-zone" onclick="document.getElementById('input-docs').click()" class="border-2 border-dashed border-blue-300 hover:border-blue-500 bg-blue-50/40 hover:bg-blue-50/70 rounded-2xl p-5 text-center cursor-pointer transition flex flex-col items-center justify-center active:scale-[0.99]">
                                 <div class="w-10 h-10 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center mb-1.5">
                                     <i class="fa-brands fa-google-drive text-lg"></i>
                                 </div>
@@ -431,15 +432,16 @@
                                 <p class="text-[11px] text-slate-400 mt-0.5">รองรับ PDF, Word, Excel, PPTX, ZIP</p>
                                 <input type="file" id="input-docs" multiple onchange="handleDocSelect(event)" class="hidden">
                             </div>
+                            <!-- พรีวิวรายการไฟล์เอกสารที่เลือก -->
                             <div id="uploaded-docs-preview" class="mt-3 space-y-2"></div>
                         </div>
                     </div>
 
                     <div class="pt-4 border-t border-slate-100 flex items-center justify-end space-x-3">
-                        <button type="button" onclick="switchTab('gallery')" class="px-5 py-2.5 rounded-xl border border-slate-300 text-slate-700 text-sm font-medium hover:bg-slate-50 transition">
+                        <button type="button" onclick="switchTab('dashboard')" class="px-5 py-2.5 rounded-xl border border-slate-300 text-slate-700 text-sm font-medium hover:bg-slate-50 transition active:scale-95">
                             ยกเลิก
                         </button>
-                        <button type="submit" id="submit-btn" class="bg-gradient-to-r from-red-600 to-rose-700 hover:from-red-700 hover:to-rose-800 text-white font-semibold px-6 py-2.5 rounded-xl shadow-lg shadow-red-600/25 transition text-sm flex items-center">
+                        <button type="submit" id="submit-btn" class="bg-gradient-to-r from-red-600 to-rose-700 hover:from-red-700 hover:to-rose-800 text-white font-semibold px-6 py-2.5 rounded-xl shadow-lg shadow-red-600/25 transition text-sm flex items-center active:scale-95">
                             <i class="fa-solid fa-floppy-disk mr-2"></i>บันทึกผลงานลงระบบ
                         </button>
                     </div>
@@ -457,7 +459,7 @@
                     <span id="modal-dept-badge" class="px-2.5 py-1 rounded-lg text-xs font-bold border"></span>
                     <span id="modal-status-badge"></span>
                 </div>
-                <button onclick="closeDetailModal()" class="w-8 h-8 rounded-lg bg-slate-200 hover:bg-slate-300 text-slate-600 flex items-center justify-center transition">
+                <button onclick="closeDetailModal()" class="w-8 h-8 rounded-lg bg-slate-200 hover:bg-slate-300 text-slate-600 flex items-center justify-center transition active:scale-95">
                     <i class="fa-solid fa-xmark"></i>
                 </button>
             </div>
@@ -491,10 +493,10 @@
                 </div>
             </div>
             <div class="p-4 border-t border-slate-100 bg-slate-50 flex items-center justify-between">
-                <button id="modal-delete-btn" class="text-rose-600 hover:text-rose-700 hover:bg-rose-50 px-3 py-2 rounded-xl text-xs font-semibold transition flex items-center">
+                <button id="modal-delete-btn" class="text-rose-600 hover:text-rose-700 hover:bg-rose-50 px-3 py-2 rounded-xl text-xs font-semibold transition flex items-center active:scale-95">
                     <i class="fa-solid fa-trash-can mr-1.5"></i>ลบผลงานนี้
                 </button>
-                <button onclick="closeDetailModal()" class="bg-slate-800 hover:bg-slate-900 text-white px-5 py-2 rounded-xl text-xs font-semibold transition">
+                <button onclick="closeDetailModal()" class="bg-slate-800 hover:bg-slate-900 text-white px-5 py-2 rounded-xl text-xs font-semibold transition active:scale-95">
                     ปิดหน้าต่าง
                 </button>
             </div>
@@ -555,10 +557,12 @@
         window.addEventListener('DOMContentLoaded', () => {
             loadFromLocalStorage();
             document.getElementById('input-date').valueAsDate = new Date();
-            updateStats();
-            renderDashboardRecent();
+            refreshDashboard();
             renderPRCarousel();
             renderGallery();
+            
+            // ตั้งค่าให้รูปภาพ / เอกสารสามารถลากมาวาง (Drag and Drop) ได้
+            setupDragAndDrop();
         });
 
         function saveToLocalStorage() {
@@ -595,24 +599,45 @@
         }
 
         function getStatusBadgeHtml(status) {
-            if (status === 'อนุมัติแล้ว') return `<span class="px-2.5 py-0.5 rounded-full text-xs bg-emerald-100 text-emerald-800">อนุมัติแล้ว</span>`;
-            return `<span class="px-2.5 py-0.5 rounded-full text-xs bg-amber-100 text-amber-800">ฉบับร่าง</span>`;
+            if (status === 'อนุมัติแล้ว') return `<span class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800">อนุมัติแล้ว</span>`;
+            if (status === 'กำลังดำเนินการ') return `<span class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-blue-100 text-blue-800">กำลังดำเนินการ</span>`;
+            return `<span class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-amber-100 text-amber-800">ฉบับร่าง</span>`;
         }
 
         function switchTab(tabName) {
+            state.currentTab = tabName;
             document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
             document.getElementById(`tab-${tabName}`).classList.remove('hidden');
-            if (tabName === 'dashboard') updateStats();
+            
+            // อัปเดตไฮไลต์ปุ่มเมนู
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.className = "nav-btn px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 text-slate-300 hover:text-white hover:bg-slate-800";
+            });
+            const activeNav = document.getElementById(`nav-${tabName}`);
+            if (activeNav) activeNav.className = "nav-btn px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 text-red-200 bg-slate-800/90 border border-red-500/30";
+
+            if (tabName === 'dashboard') refreshDashboard();
             if (tabName === 'gallery') renderGallery();
         }
 
         function showToast(message, type = 'info') {
             const container = document.getElementById('toast-container');
             const toast = document.createElement('div');
-            toast.className = `p-3 px-4 rounded-xl shadow-xl bg-slate-900 text-white text-xs`;
-            toast.innerText = message;
+            
+            let bgClass = "bg-slate-900 border-slate-700 text-white";
+            if (type === 'success') bgClass = "bg-emerald-600 text-white font-medium shadow-emerald-900/30";
+            if (type === 'danger') bgClass = "bg-rose-600 text-white font-medium shadow-rose-900/30";
+            
+            toast.className = `p-3 px-5 rounded-xl shadow-2xl text-xs sm:text-sm flex items-center space-x-2 transition-all transform translate-y-2 animate-bounce pointer-events-auto border ${bgClass}`;
+            toast.innerHTML = `
+                <i class="${type === 'success' ? 'fa-solid fa-circle-check' : type === 'danger' ? 'fa-solid fa-circle-exclamation' : 'fa-solid fa-info-circle'} text-base"></i>
+                <span>${message}</span>
+            `;
             container.appendChild(toast);
-            setTimeout(() => toast.remove(), 3000);
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'translate-y-4');
+                setTimeout(() => toast.remove(), 300);
+            }, 3500);
         }
 
         function renderPRCarousel() {
@@ -620,7 +645,7 @@
             const item = prShowcaseData[state.carouselIndex];
             container.innerHTML = `
                 <div class="w-full md:w-1/2 p-6 z-10 space-y-2">
-                    <span class="px-2 py-1 rounded text-[10px] font-bold bg-red-600 text-white">${item.badge}</span>
+                    <span class="px-2 py-1 rounded text-[10px] font-bold bg-red-600 text-white uppercase tracking-wider">${item.badge}</span>
                     <h3 class="text-xl font-bold text-white">${item.title}</h3>
                     <p class="text-xs text-slate-300">${item.description}</p>
                 </div>
@@ -630,20 +655,87 @@
             `;
         }
 
+        function prevCarousel() {
+            state.carouselIndex = (state.carouselIndex - 1 + prShowcaseData.length) % prShowcaseData.length;
+            renderPRCarousel();
+        }
+
+        function nextCarousel() {
+            state.carouselIndex = (state.carouselIndex + 1) % prShowcaseData.length;
+            renderPRCarousel();
+        }
+
+        // --- REAL-TIME DASHBOARD UPDATES ---
+        function refreshDashboard() {
+            updateStats();
+            renderDepartmentSummary();
+            renderDashboardRecent();
+        }
+
         function updateStats() {
+            let photoCount = 0;
+            let docCount = 0;
+            let approvedCount = 0;
+
+            state.works.forEach(w => {
+                if (w.status === 'อนุมัติแล้ว') approvedCount++;
+                if (w.files && Array.isArray(w.files)) {
+                    w.files.forEach(f => {
+                        if (f.isPhoto) photoCount++;
+                        else docCount++;
+                    });
+                }
+            });
+
             document.getElementById('stat-total-works').innerText = state.works.length;
+            document.getElementById('stat-total-photos').innerText = photoCount;
+            document.getElementById('stat-total-docs').innerText = docCount;
+            document.getElementById('stat-approved-works').innerText = approvedCount;
+        }
+
+        function renderDepartmentSummary() {
+            const summaryContainer = document.getElementById('department-list-summary');
+            const departments = ['EMS', 'อุบัติเหตุและฉุกเฉิน', 'ศูนย์ส่งต่อ', 'หอผู้ป่วยทั่วไป'];
+            
+            const counts = { 'EMS': 0, 'อุบัติเหตุและฉุกเฉิน': 0, 'ศูนย์ส่งต่อ': 0, 'หอผู้ป่วยทั่วไป': 0 };
+            state.works.forEach(w => {
+                if (counts[w.department] !== undefined) counts[w.department]++;
+            });
+
+            const total = state.works.length || 1;
+
+            summaryContainer.innerHTML = departments.map(dept => {
+                const count = counts[dept];
+                const percent = Math.round((count / total) * 100);
+                return `
+                    <div class="space-y-1.5">
+                        <div class="flex justify-between text-xs font-semibold">
+                            <span class="text-slate-700">${escapeHtml(dept)}</span>
+                            <span class="text-slate-500">${count} งาน (${percent}%)</span>
+                        </div>
+                        <div class="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
+                            <div class="h-full bg-gradient-to-r from-red-500 to-rose-600 rounded-full transition-all duration-500" style="width: ${percent}%"></div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
         }
 
         function renderDashboardRecent() {
             const tableBody = document.getElementById('dashboard-recent-table');
+            if (state.works.length === 0) {
+                tableBody.innerHTML = `<tr><td colspan="5" class="text-center py-6 text-xs text-slate-400">ยังไม่มีข้อมูลผลงานในระบบ</td></tr>`;
+                return;
+            }
+
             tableBody.innerHTML = state.works.slice(0, 5).map(w => `
-                <tr class="hover:bg-slate-50">
-                    <td class="px-3 py-3 font-medium text-slate-900">${escapeHtml(w.title)}</td>
-                    <td class="px-3 py-3">${escapeHtml(w.department)}</td>
-                    <td class="px-3 py-3 text-xs">${escapeHtml(w.date)}</td>
+                <tr class="hover:bg-slate-50/80 transition">
+                    <td class="px-3 py-3 font-semibold text-slate-800 line-clamp-1">${escapeHtml(w.title)}</td>
+                    <td class="px-3 py-3"><span class="px-2 py-0.5 rounded text-[11px] font-medium ${getDepartmentBadgeClass(w.department)}">${escapeHtml(w.department)}</span></td>
+                    <td class="px-3 py-3 text-xs text-slate-500">${escapeHtml(w.date)}</td>
                     <td class="px-3 py-3">${getStatusBadgeHtml(w.status)}</td>
                     <td class="px-3 py-3 text-right">
-                        <button onclick="openDetailModal('${w.id}')" class="px-2.5 py-1 text-xs rounded bg-red-50 text-red-600">ดูผลงาน</button>
+                        <button onclick="openDetailModal('${w.id}')" class="px-2.5 py-1 text-xs rounded-lg bg-red-50 text-red-600 hover:bg-red-100 font-semibold transition">ดูผลงาน</button>
                     </td>
                 </tr>
             `).join('');
@@ -651,17 +743,91 @@
 
         function renderGallery() {
             const container = document.getElementById('gallery-container');
-            container.innerHTML = `<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                ${state.works.map(w => `
-                    <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm space-y-2">
-                        <span class="text-xs font-bold px-2 py-0.5 rounded ${getDepartmentBadgeClass(w.department)}">${escapeHtml(w.department)}</span>
-                        <h3 class="font-bold text-sm hover:text-red-600 cursor-pointer" onclick="openDetailModal('${w.id}')">${escapeHtml(w.title)}</h3>
-                        <p class="text-xs text-slate-500">${escapeHtml(w.description)}</p>
+            const search = document.getElementById('filter-search')?.value.toLowerCase() || '';
+            const deptFilter = document.getElementById('filter-department')?.value || 'all';
+            const catFilter = document.getElementById('filter-category')?.value || 'all';
+            const statusFilter = document.getElementById('filter-status')?.value || 'all';
+
+            const filtered = state.works.filter(w => {
+                const matchSearch = w.title.toLowerCase().includes(search) || w.submitter.toLowerCase().includes(search) || w.description.toLowerCase().includes(search);
+                const matchDept = deptFilter === 'all' || w.department === deptFilter;
+                const matchCat = catFilter === 'all' || w.category === catFilter;
+                const matchStatus = statusFilter === 'all' || w.status === statusFilter;
+                return matchSearch && matchDept && matchCat && matchStatus;
+            });
+
+            if (filtered.length === 0) {
+                container.innerHTML = `<div class="text-center py-12 bg-white rounded-2xl border border-slate-200 text-slate-400 text-sm">ไม่พบข้อมูลผลงานที่ค้นหา</div>`;
+                return;
+            }
+
+            if (state.viewMode === 'grid') {
+                container.innerHTML = `<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                    ${filtered.map(w => {
+                        const coverPhoto = w.files?.find(f => f.isPhoto)?.dataUrl;
+                        return `
+                            <div class="bg-white rounded-2xl border border-slate-200/90 shadow-sm hover:shadow-md transition overflow-hidden flex flex-col justify-between">
+                                <div>
+                                    ${coverPhoto ? `<div class="h-40 w-full overflow-hidden bg-slate-100"><img src="${coverPhoto}" class="w-full h-full object-cover"></div>` : ''}
+                                    <div class="p-5 space-y-2">
+                                        <div class="flex items-center justify-between">
+                                            <span class="text-[11px] font-bold px-2.5 py-0.5 rounded-md border ${getDepartmentBadgeClass(w.department)}">${escapeHtml(w.department)}</span>
+                                            ${getStatusBadgeHtml(w.status)}
+                                        </div>
+                                        <h3 class="font-bold text-slate-900 text-base leading-snug hover:text-red-600 cursor-pointer transition line-clamp-2" onclick="openDetailModal('${w.id}')">${escapeHtml(w.title)}</h3>
+                                        <p class="text-xs text-slate-500 line-clamp-2">${escapeHtml(w.description)}</p>
+                                    </div>
+                                </div>
+                                <div class="px-5 py-3 bg-slate-50 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
+                                    <span><i class="fa-solid fa-user text-red-500 mr-1"></i>${escapeHtml(w.submitter)}</span>
+                                    <button onclick="openDetailModal('${w.id}')" class="text-red-600 font-semibold hover:underline">รายละเอียด</button>
+                                </div>
+                            </div>
+                        `;
+                    }).join('')}
+                </div>`;
+            } else {
+                container.innerHTML = `
+                    <div class="bg-white rounded-2xl border border-slate-200/90 shadow-sm overflow-x-auto custom-scrollbar">
+                        <table class="w-full text-left text-sm text-slate-600">
+                            <thead class="text-xs text-slate-500 uppercase bg-slate-50 border-b border-slate-100">
+                                <tr>
+                                    <th class="px-4 py-3">ชื่อผลงาน</th>
+                                    <th class="px-4 py-3">กลุ่มงาน</th>
+                                    <th class="px-4 py-3">ผู้ส่ง</th>
+                                    <th class="px-4 py-3">วันที่</th>
+                                    <th class="px-4 py-3">สถานะ</th>
+                                    <th class="px-4 py-3 text-right">จัดการ</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-100">
+                                ${filtered.map(w => `
+                                    <tr class="hover:bg-slate-50">
+                                        <td class="px-4 py-3 font-semibold text-slate-800">${escapeHtml(w.title)}</td>
+                                        <td class="px-4 py-3"><span class="px-2 py-0.5 rounded text-xs border ${getDepartmentBadgeClass(w.department)}">${escapeHtml(w.department)}</span></td>
+                                        <td class="px-4 py-3 text-xs">${escapeHtml(w.submitter)}</td>
+                                        <td class="px-4 py-3 text-xs">${escapeHtml(w.date)}</td>
+                                        <td class="px-4 py-3">${getStatusBadgeHtml(w.status)}</td>
+                                        <td class="px-4 py-3 text-right">
+                                            <button onclick="openDetailModal('${w.id}')" class="px-3 py-1 text-xs rounded-lg bg-red-50 text-red-600 font-semibold hover:bg-red-100 transition">เปิดดู</button>
+                                        </td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
                     </div>
-                `).join('')}
-            </div>`;
+                `;
+            }
         }
 
+        function setViewMode(mode) {
+            state.viewMode = mode;
+            document.getElementById('view-mode-grid').className = mode === 'grid' ? "p-1.5 px-3 rounded-lg text-xs font-medium bg-white text-slate-800 shadow-sm transition" : "p-1.5 px-3 rounded-lg text-xs font-medium text-slate-600 hover:text-slate-900 transition";
+            document.getElementById('view-mode-table').className = mode === 'table' ? "p-1.5 px-3 rounded-lg text-xs font-medium bg-white text-slate-800 shadow-sm transition" : "p-1.5 px-3 rounded-lg text-xs font-medium text-slate-600 hover:text-slate-900 transition";
+            renderGallery();
+        }
+
+        // --- FILE SELECTION PREVIEWS ---
         function handlePhotoSelect(e) {
             const files = Array.from(e.target.files);
             files.forEach(file => {
@@ -674,9 +840,30 @@
                         isPhoto: true,
                         dataUrl: ev.target.result
                     });
+                    renderSelectedPhotosPreview();
                 };
                 reader.readAsDataURL(file);
             });
+        }
+
+        function renderSelectedPhotosPreview() {
+            const previewContainer = document.getElementById('uploaded-photos-preview');
+            previewContainer.innerHTML = state.selectedPhotos.map((photo, index) => `
+                <div class="relative group rounded-xl overflow-hidden border border-slate-200 bg-slate-100 h-24 shadow-sm">
+                    <img src="${photo.dataUrl}" class="w-full h-full object-cover">
+                    <button type="button" onclick="removeSelectedPhoto(${index})" class="absolute top-1 right-1 bg-red-600 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs opacity-90 hover:opacity-100 shadow transition">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                    <div class="absolute bottom-0 inset-x-0 bg-navy-950/80 text-white p-1 text-[10px] truncate px-2">
+                        ${escapeHtml(photo.name)}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function removeSelectedPhoto(index) {
+            state.selectedPhotos.splice(index, 1);
+            renderSelectedPhotosPreview();
         }
 
         function handleDocSelect(e) {
@@ -684,9 +871,58 @@
             files.forEach(file => {
                 state.selectedDocs.push(file);
             });
-            showToast(`เลือกไฟล์เอกสารเรียบร้อย ${files.length} ไฟล์`);
+            renderSelectedDocsPreview();
         }
 
+        function renderSelectedDocsPreview() {
+            const previewContainer = document.getElementById('uploaded-docs-preview');
+            previewContainer.innerHTML = state.selectedDocs.map((doc, index) => `
+                <div class="flex items-center justify-between p-2.5 px-3 bg-slate-50 border border-slate-200 rounded-xl text-xs">
+                    <div class="flex items-center space-x-2 truncate">
+                        <i class="fa-solid fa-file-lines text-blue-600 text-sm"></i>
+                        <span class="font-medium text-slate-800 truncate">${escapeHtml(doc.name)}</span>
+                        <span class="text-slate-400 text-[10px]">(${formatBytes(doc.size)})</span>
+                    </div>
+                    <button type="button" onclick="removeSelectedDoc(${index})" class="text-slate-400 hover:text-rose-600 px-2 py-1 transition">
+                        <i class="fa-solid fa-trash-can"></i>
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        function removeSelectedDoc(index) {
+            state.selectedDocs.splice(index, 1);
+            renderSelectedDocsPreview();
+        }
+
+        function setupDragAndDrop() {
+            const photoZone = document.getElementById('photo-drop-zone');
+            const docZone = document.getElementById('doc-drop-zone');
+
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                photoZone.addEventListener(eventName, preventDefaults, false);
+                docZone.addEventListener(eventName, preventDefaults, false);
+            });
+
+            function preventDefaults(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+
+            photoZone.addEventListener('drop', (e) => {
+                const dt = e.dataTransfer;
+                const files = dt.files;
+                handlePhotoSelect({ target: { files: files } });
+            });
+
+            docZone.addEventListener('drop', (e) => {
+                const dt = e.dataTransfer;
+                const files = dt.files;
+                handleDocSelect({ target: { files: files } });
+            });
+        }
+
+        // --- UPLOAD TO GOOGLE DRIVE ---
         async function uploadFileToDrive(file) {
             return new Promise((resolve, reject) => {
                 const reader = new FileReader();
@@ -694,7 +930,7 @@
                     const base64String = e.target.result.split(',')[1];
                     const payload = {
                         fileName: file.name,
-                        mimeType: file.type,
+                        mimeType: file.type || 'application/octet-stream',
                         base64: base64String
                     };
 
@@ -707,12 +943,13 @@
                         if (data.status === 'success') {
                             resolve(data.fileUrl);
                         } else {
-                            reject(data.message);
+                            reject(data.message || 'เกิดข้อผิดพลาดในการอัปโหลด');
                         }
                     } catch (err) {
                         reject(err);
                     }
                 };
+                reader.onerror = () => reject('ไม่สามารถอ่านไฟล์ได้');
                 reader.readAsDataURL(file);
             });
         }
@@ -721,11 +958,12 @@
             event.preventDefault();
             const submitBtn = document.getElementById('submit-btn');
             submitBtn.disabled = true;
-            submitBtn.innerText = "กำลังอัปโหลดไฟล์ไป Google Drive...";
+            submitBtn.innerHTML = `<i class="fa-solid fa-spinner animate-spin mr-2"></i>กำลังอัปโหลดไฟล์ลง Google Drive...`;
 
             const uploadedDriveFiles = [];
 
             try {
+                // อัปโหลดไฟล์เอกสารเข้า Google Drive
                 for (let docFile of state.selectedDocs) {
                     const fileUrl = await uploadFileToDrive(docFile);
                     uploadedDriveFiles.push({
@@ -749,30 +987,99 @@
                     files: [...state.selectedPhotos, ...uploadedDriveFiles]
                 };
 
+                // เพิ่มงานใหม่ลงไปด้านบนสุด
                 state.works.unshift(newWork);
                 saveToLocalStorage();
 
-                showToast('บันทึกผลงานและอัปโหลดไฟล์เรียบร้อย!', 'success');
-                switchTab('gallery');
+                // เคลียร์ฟอร์ม
+                document.getElementById('work-form').reset();
+                state.selectedPhotos = [];
+                state.selectedDocs = [];
+                renderSelectedPhotosPreview();
+                renderSelectedDocsPreview();
+
+                // สลับไปหน้าแดชบอร์ด + อัปเดตข้อมูล Real-time + แจ้งเตือนสำเร็จ
+                switchTab('dashboard');
+                showToast('บันทึกผลงานสำเร็จและอัปโหลดเข้า Google Drive เรียบร้อย!', 'success');
+
             } catch (err) {
-                showToast('เกิดข้อผิดพลาด: ' + err, 'danger');
+                showToast('เกิดข้อผิดพลาดในการส่งข้อมูล: ' + err, 'danger');
             } finally {
                 submitBtn.disabled = false;
-                submitBtn.innerText = "บันทึกผลงานลงระบบ";
+                submitBtn.innerHTML = `<i class="fa-solid fa-floppy-disk mr-2"></i>บันทึกผลงานลงระบบ`;
             }
         }
 
         function openDetailModal(id) {
             const work = state.works.find(w => w.id === id);
             if (!work) return;
+
             document.getElementById('modal-title').innerText = work.title;
             document.getElementById('modal-submitter').innerText = work.submitter;
-            document.getElementById('modal-description').innerText = work.description;
+            document.getElementById('modal-category').innerText = work.category;
+            document.getElementById('modal-date').innerText = work.date;
+            document.getElementById('modal-description').innerText = work.description || 'ไม่มีรายละเอียดสรุปเพิ่มเติม';
+            
+            const deptBadge = document.getElementById('modal-dept-badge');
+            deptBadge.innerText = work.department;
+            deptBadge.className = `px-2.5 py-1 rounded-lg text-xs font-bold border ${getDepartmentBadgeClass(work.department)}`;
+            
+            document.getElementById('modal-status-badge').innerHTML = getStatusBadgeHtml(work.status);
+
+            // รูปภาพ
+            const photos = work.files?.filter(f => f.isPhoto) || [];
+            document.getElementById('modal-photos-count').innerText = photos.length;
+            const photoGrid = document.getElementById('modal-photos-grid');
+            if (photos.length > 0) {
+                photoGrid.innerHTML = photos.map(p => `
+                    <a href="${p.dataUrl}" target="_blank" class="block h-28 rounded-xl overflow-hidden border border-slate-200 bg-slate-100 hover:opacity-90 transition">
+                        <img src="${p.dataUrl}" class="w-full h-full object-cover">
+                    </a>
+                `).join('');
+            } else {
+                photoGrid.innerHTML = `<p class="text-xs text-slate-400 col-span-3">ไม่มีรูปภาพแนบ</p>`;
+            }
+
+            // เอกสาร
+            const docs = work.files?.filter(f => !f.isPhoto) || [];
+            document.getElementById('modal-docs-count').innerText = docs.length;
+            const docsList = document.getElementById('modal-docs-list');
+            if (docs.length > 0) {
+                docsList.innerHTML = docs.map(d => `
+                    <div class="flex items-center justify-between p-3 bg-slate-50 border border-slate-200/80 rounded-xl text-xs">
+                        <div class="flex items-center space-x-2 truncate">
+                            <i class="fa-brands fa-google-drive text-emerald-600 text-base"></i>
+                            <span class="font-medium text-slate-800 truncate">${escapeHtml(d.name)}</span>
+                        </div>
+                        <a href="${d.dataUrl}" target="_blank" class="px-3 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-medium text-xs transition flex items-center">
+                            <i class="fa-solid fa-arrow-up-right-from-square mr-1.5"></i>เปิดไฟล์
+                        </a>
+                    </div>
+                `).join('');
+            } else {
+                docsList.innerHTML = `<p class="text-xs text-slate-400">ไม่มีไฟล์เอกสารแนบ</p>`;
+            }
+
+            // ปุ่มลบ
+            const deleteBtn = document.getElementById('modal-delete-btn');
+            deleteBtn.onclick = () => deleteWork(work.id);
+
             document.getElementById('detail-modal').classList.remove('hidden');
         }
 
         function closeDetailModal() {
             document.getElementById('detail-modal').classList.add('hidden');
+        }
+
+        function deleteWork(id) {
+            if (confirm('คุณแน่ใจหรือไม่ว่าต้องการลบผลงานนี้ออกจากระบบ?')) {
+                state.works = state.works.filter(w => w.id !== id);
+                saveToLocalStorage();
+                closeDetailModal();
+                refreshDashboard();
+                renderGallery();
+                showToast('ลบผลงานเรียบร้อยแล้ว', 'info');
+            }
         }
     </script>
 </body>
